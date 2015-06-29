@@ -9,8 +9,8 @@ class Tile
     [1, 0],
     [1, 1]
   ]
-  attr_accessor :flagged, :revealed, :value
   attr_reader :board, :pos
+  attr_accessor :value
 
   def initialize(board, pos, value = "0", flagged = false, revealed = false)
     @board = board
@@ -57,4 +57,7 @@ class Tile
   def adj_positions
     ADJ_POS.map { |adj| [pos[0] + adj[0], pos[1] + adj[1]] }
   end
+
+  protected
+  attr_accessor :flagged, :revealed
 end
