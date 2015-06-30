@@ -1,5 +1,6 @@
 require_relative 'board'
 require 'yaml'
+require_relative 'cursor_input'
 
 class Game
   attr_reader :board
@@ -27,36 +28,71 @@ class Game
   end
 
   def take_turn
-    offer_save
-    flag_or_reveal == "f" ? flag_turn : reveal_turn
+    cursor_loop
     board.render
   end
 
+  # def take_turn
+  #   offer_save
+  #   flag_or_reveal == "f" ? flag_turn : reveal_turn
+  #   board.render
+  # end
+
   def offer_save
-    puts "Would you like to save your game? (y/n)"
+    puts "Are you sure you would like to save your game? (y/n)"
     save_game if gets.chomp == "y"
   end
 
   def save_game
     f = File.open("#{self}", "w") { |f| f.write(self.to_yaml) }
-
   end
 
-  def flag_or_reveal
-    puts "Would you like to place/remove a flag or reveal a tile? (f/r)"
-    gets.chomp
-  end
+  # def flag_or_reveal
+  #   puts "Would you like to place/remove a flag or reveal a tile? (f/r)"
+  #   gets.chomp
+  # end
+  #
+  # def flag_turn
+  #   puts "Which position would you like to flag or unflag? (e.g. 0,0)"
+  #   pos = cursor_loop
+  #   board.swap_flag(pos)
+  # end
+  #
+  # def reveal_turn
+  #   puts "Which position would you like to reveal?"
+  #   pos = cursor_loop
+  #   board.reveal_tiles(pos)
+  # end
 
-  def flag_turn
-    puts "Which position would you like to flag or unflag? (e.g. 0,0)"
-    pos = gets.chomp.split(",").map(&:to_i)
-    board.swap_flag(pos)
-  end
-
-  def reveal_turn
-    puts "Which position would you like to reveal?"
-    pos = gets.chomp.split(",").map(&:to_i)
-    board.reveal_tiles(pos)
+  def cursor_loop
+    pos = [0, 0]
+    loop do
+      #update render
+      board.render(pos)
+      puts "Please move the cursor and press r, f, or s, or q to reveal,"
+      puts "(de)flag, save, or quit."
+      command = show_single_key
+      if command == :"\"r\""
+        board.reveal_tiles(pos)
+        break
+      elsif command == :"\"f\""
+        board.swap_flag(pos)
+        break
+      elsif command == :"\"s\""
+        offer_save
+        break
+      elsif command == :"\"q\""
+        exit 0
+      elsif command == :up && board.on_board?([pos[0] - 1, pos[1]])
+        pos[0] -= 1
+      elsif command == :down && board.on_board?([pos[0] + 1, pos[1]])
+        pos[0] += 1
+      elsif command == :left && board.on_board?([pos[0], pos[1] - 1])
+        pos[1] -= 1
+      elsif command == :right && board.on_board?([pos[0], pos[1] + 1])
+        pos[1] += 1
+      end
+    end
   end
 
   def finish_game

@@ -1,5 +1,4 @@
 require_relative 'tile'
-require 'colorize'
 
 class Board
   def initialize(game = nil, size = 9, bombs = 10)
@@ -13,11 +12,14 @@ class Board
     self[pos].swap_flag
   end
 
-  def render
+  def render(pos = nil)
+    system("clear")
     puts "    " + (0...size).to_a.join(" ")
     @grid.each_with_index do |row, id|
       printable = ["#{id}: "]
-      row.each { |tile| printable << tile.to_s }
+      row.each do |tile|
+        printable << tile.to_s(pos)
+      end
       puts printable.join(" ")
     end
   end
@@ -50,6 +52,10 @@ class Board
         reveal_tiles(adj, checked_positions) if on_board?(adj)
       end
     end
+  end
+
+  def on_board?(pos)
+    (0...size).include?(pos[0]) && (0...size).include?(pos[1])
   end
 
   protected
@@ -114,7 +120,4 @@ class Board
     @grid[row][col] = mark
   end
 
-  def on_board?(pos)
-    (0...size).include?(pos[0]) && (0...size).include?(pos[1])
-  end
 end
