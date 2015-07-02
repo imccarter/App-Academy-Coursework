@@ -74,6 +74,6 @@ pos = [5, 0]
 dest = [4, 1]
 
 
-board[pos].perform_slide(dest)
+p board[pos].perform_slide(dest)
 
 puts board.render

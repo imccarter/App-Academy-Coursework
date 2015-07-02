@@ -17,21 +17,33 @@ class Piece
     @kinged = kinged
   end
 
+  def other_color
+    color == :r ? :b : :r
+  end
+
   def perform_slide(dest)
     return false unless board.valid_pos?(dest)
     i1, j1 = pos
+    possible_slides = []
+
     move_diffs.each do |diff|
       i2, j2 = diff
-      true if dest == [(i1 + i2), (j1 + j2)]
+      possible_slides << [(i1 + i2), (j1 + j2)]
     end
-    board[pos] = nil
-    board[dest] = self
-    self.pos = dest
+
+    if !board.occupied?(dest) && possible_slides.include?(dest)
+      board[pos], board[dest], self.pos = nil, self, dest
+    else
+      return false
+    end
+    true
   end
 
-  def perform_jump
-
+  def perform_jump(dest)
+    return false unless board.valid_pos?(dest)
   end
+
+
 
   def move_diffs
     if kinged #kings move everywhere
