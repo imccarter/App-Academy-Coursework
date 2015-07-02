@@ -1,8 +1,15 @@
 class Piece
 
+  MOVE_DIFFS = {
+    :SW => [1, -1],
+    :SE => [1, 1],
+    :NW => [-1, -1],
+    :NE => [-1, 1]
+  }
+
 
   def initialize(color, kinged = false)
-    @color = color
+    @color = color #Black starts on "top"
     @kinged = kinged
   end
 
@@ -14,8 +21,22 @@ class Piece
 
   end
 
-  def render
+  def move_diffs
+    if kinged
+      MOVE_DIFFS.values
+    elsif color == :r
+      MOVE_DIFFS[:NE] + MOVE_DIFFS[:NW]
+    else
+      MOVE_DIFFS[:NE] + MOVE_DIFFS[:NW]
+    end
+  end
 
+  def render
+    if color == :r
+      kinged ? ' R ' : ' r '
+    else
+      kinged ? ' B ' : ' b '
+    end
   end
 
 

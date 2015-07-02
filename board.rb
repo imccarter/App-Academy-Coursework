@@ -41,11 +41,11 @@ class Board
     end.join("\n")
   end
 
-  def setup_red
+  def setup_red #Red starts on "bottom"
 
   end
 
-  def setup_black
+  def setup_black #Black starts on "top"
 
   end
 
