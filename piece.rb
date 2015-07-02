@@ -1,6 +1,7 @@
 class Piece
 
-  attr_reader :color, :board, :pos, :kinged
+  attr_reader :color, :board
+  attr_accessor :pos, :kinged
 
   MOVE_DIFFS = {
     :SW => [1, -1],
@@ -21,8 +22,11 @@ class Piece
     i1, j1 = pos
     move_diffs.each do |diff|
       i2, j2 = diff
-      return true if dest == [(i1 + i2), (j1 + j2)]
+      true if dest == [(i1 + i2), (j1 + j2)]
     end
+    board[pos] = nil
+    board[dest] = self
+    self.pos = dest
   end
 
   def perform_jump
@@ -33,9 +37,9 @@ class Piece
     if kinged #kings move everywhere
       MOVE_DIFFS.values
     elsif color == :r #red moves up
-      MOVE_DIFFS[:NE] + MOVE_DIFFS[:NW]
+      [MOVE_DIFFS[:NE], MOVE_DIFFS[:NW]]
     else #black moves down
-      MOVE_DIFFS[:SE] + MOVE_DIFFS[:SW]
+      [MOVE_DIFFS[:SE], MOVE_DIFFS[:SW]]
     end
   end
 

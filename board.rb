@@ -64,8 +64,16 @@ class Board
     end
   end
 
+
+
+
 end
 
 board = Board.new
+pos = [5, 0]
+dest = [4, 1]
+
+
+board[pos].perform_slide(dest)
 
 puts board.render
