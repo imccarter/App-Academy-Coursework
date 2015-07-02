@@ -1,4 +1,5 @@
 require_relative 'piece'
+require 'byebug'
 
 class Board
 
@@ -20,9 +21,8 @@ class Board
 
   def valid_pos?(pos) #Only checks if square is on the board and potentially movable to, NOT if occupied.
     if pos.none? { |val| val < 0 || val > 7 }
-      r, c = pos
-      return false if r.even? && c.even? || r.odd? && c.odd?
-      return true
+      x, y = pos
+      return x.even? && y.odd? || x.odd? && y.even?
     end
     false
   end
@@ -34,8 +34,8 @@ class Board
   def populate_board(setup_pieces)
     @grid = Array.new(8) { Array.new(8) }
     return unless setup_pieces
-    setup_red
-    setup_black
+    setup(:red)
+    setup(:black)
   end
 
   def render
@@ -46,34 +46,23 @@ class Board
     end.join("\n")
   end
 
-  def setup_red #Red starts on "bottom"
-    grid[0..2].each_with_index do |bot_row, r_id|
-      bot_row.each_with_index do |square, c_id|
-        square = [7 - r_id, 7 - c_id]
-        self[square] = Piece.new(:r, self, square, false) if valid_pos?(square)
+  def setup(color)
+    3.times do |i|
+      8.times do |j|
+        pos = color == :red ? [7 - i, 7 - j] : [i, j] #red on "bottom", black on "top"
+        self[pos] = Piece.new(color, self, pos) if valid_pos?(pos)
       end
     end
   end
-
-  def setup_black #Black starts on "top"
-    grid[0..2].each_with_index do |bot_row, r_id|
-      bot_row.each_with_index do |square, c_id|
-        square = [r_id, c_id]
-        self[square] = Piece.new(:b, self, square, false) if valid_pos?(square)
-      end
-    end
-  end
-
-
-
-
 end
 
 board = Board.new
 pos = [5, 0]
-dest = [4, 1]
+enemy = [4,1]
+board[enemy] = Piece.new(:black, board, enemy)
+dest = [3, 2]
+puts board.render
 
-
-p board[pos].perform_slide(dest)
+p board[pos].perform_jump(dest)
 
 puts board.render
