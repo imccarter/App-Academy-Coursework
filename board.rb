@@ -59,10 +59,15 @@ class Board
   def dup
     duped_board = Board.new(false)
     pieces.each do |piece|
-      piece.class.new(piece.color, duped_board, piece.pos, piece.kinged)
+      duped_board.add_piece(piece.dup(duped_board), piece.pos)
     end
+
+    duped_board
   end
 
+  def add_piece(piece, pos)
+    self[pos] = piece
+  end
 
   def pieces
     @grid.flatten.compact
@@ -80,12 +85,12 @@ end
 
 #TESTS
 board = Board.new
-# pos = [5, 0]
-# enemy_pos = [4,1]
-# board[enemy_pos] = Piece.new(:black, board, enemy_pos)
-# dest = [5, 2]
+
+move_seq = [[]]
+
+enemy_pos = [4,1]
+
+board[enemy_pos] = Piece.new(:black, board, enemy_pos)
+
 puts board.render
 puts
-# board[pos].perform_moves!([dest])
-#
-# puts board.render
