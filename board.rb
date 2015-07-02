@@ -18,9 +18,13 @@ class Board
     grid[row][col] = piece
   end
 
-  def valid_pos?(pos)
-    pos.none? { |val| val < 0 || val > 7 }
-
+  def valid_pos?(pos) #Only checks if square is on the board and movable to, NOT if occupied.
+    if pos.none? { |val| val < 0 || val > 7 }
+      r, c = pos
+      return false if r.even? && c.even? || r.odd? && c.odd?
+      return true
+    end
+    false
   end
 
 
@@ -53,3 +57,5 @@ end
 
 board = Board.new
 puts board.render
+pos = [7,0]
+p board.valid_pos?(pos)
