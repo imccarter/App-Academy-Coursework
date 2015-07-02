@@ -16,8 +16,13 @@ class Piece
     @kinged = kinged
   end
 
-  def perform_slide
-
+  def perform_slide(dest)
+    return false unless board.valid_pos?(dest)
+    i1, j1 = pos
+    move_diffs.each do |diff|
+      i2, j2 = diff
+      return true if dest == [(i1 + i2), (j1 + j2)]
+    end
   end
 
   def perform_jump
@@ -25,12 +30,12 @@ class Piece
   end
 
   def move_diffs
-    if kinged
+    if kinged #kings move everywhere
       MOVE_DIFFS.values
-    elsif color == :r
+    elsif color == :r #red moves up
       MOVE_DIFFS[:NE] + MOVE_DIFFS[:NW]
-    else
-      MOVE_DIFFS[:NE] + MOVE_DIFFS[:NW]
+    else #black moves down
+      MOVE_DIFFS[:SE] + MOVE_DIFFS[:SW]
     end
   end
 

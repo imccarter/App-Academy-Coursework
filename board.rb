@@ -27,8 +27,9 @@ class Board
     false
   end
 
-
-
+  def occupied?(pos)
+    !self[pos].nil?
+  end
 
   def populate_board(setup_pieces)
     @grid = Array.new(8) { Array.new(8) }
@@ -66,4 +67,5 @@ class Board
 end
 
 board = Board.new
+
 puts board.render
