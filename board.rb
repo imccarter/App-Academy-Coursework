@@ -1,5 +1,6 @@
 require_relative 'piece'
 require 'byebug'
+require 'colorize'
 
 class Board
 
@@ -31,6 +32,10 @@ class Board
     !self[pos].nil?
   end
 
+  def valid_and_empty?(pos)
+    valid_pos?(pos) && !occupied?(pos)
+  end
+
   def populate_board(setup_pieces)
     @grid = Array.new(8) { Array.new(8) }
     return unless setup_pieces
@@ -39,11 +44,28 @@ class Board
   end
 
   def render
-    grid.map do |row|
-      row.map do |square|
-        square.nil? ? ' . ' : square.render
+    grid.map.with_index do |row, i|
+      row.map.with_index do |square, j|
+        if square.nil?
+          valid_pos?([i, j]) ? "   ".colorize(background: :red) : "   ".colorize(background: :blue)
+        else
+          square.render
+        end
       end.join
     end.join("\n")
+  end
+
+
+  def dup
+    duped_board = Board.new(false)
+    pieces.each do |piece|
+      piece.class.new(piece.color, duped_board, piece.pos, piece.kinged)
+    end
+  end
+
+
+  def pieces
+    @grid.flatten.compact
   end
 
   def setup(color)
@@ -56,13 +78,14 @@ class Board
   end
 end
 
+#TESTS
 board = Board.new
-pos = [5, 0]
-enemy = [4,1]
-board[enemy] = Piece.new(:black, board, enemy)
-dest = [3, 2]
+# pos = [5, 0]
+# enemy_pos = [4,1]
+# board[enemy_pos] = Piece.new(:black, board, enemy_pos)
+# dest = [5, 2]
 puts board.render
-
-p board[pos].perform_jump(dest)
-
-puts board.render
+puts
+# board[pos].perform_moves!([dest])
+#
+# puts board.render

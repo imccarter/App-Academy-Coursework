@@ -38,7 +38,7 @@ class Piece
     slides.include?(dest) && !board.occupied?(dest)
   end
 
-  def make_slide(slides, dest)
+  def make_slide(slides, dest) #Used by perform_slide; either moves the pieces + returns true, or returns false
     if can_make_slide?(slides, dest)
       board[pos], board[dest], self.pos = nil, self, dest
       true
@@ -70,7 +70,7 @@ class Piece
     occupied_by_enemy?(jumped_pos)
   end
 
-  def make_jump(jumps, jumped_pos, dest)
+  def make_jump(jumps, jumped_pos, dest) #Used by perform_jump; either moves the pieces + returns true, or returns false
     if can_make_jump?(jumps, jumped_pos, dest)
       board[pos], board[dest], self.pos = nil, self, dest
       board[jumped_pos] = nil
@@ -80,12 +80,41 @@ class Piece
     end
   end
 
-  def perform_moves!(move_sequence)
-    
-
+  def dup(duped_board)
+    self.class.new(@color, duped_board, @pos, @kinged)
   end
 
 
+
+  def perform_moves!(move_sequence)#takes an array of positions (or moves)
+    until move_sequence.empty?
+      if is_slide?(move_sequence.first) && board.valid_and_empty?(move_sequence.first)
+        perform_slide(move_sequence.shift)
+      elsif is_jump?(move_sequence.first) && board.valid_and_empty?(move_sequence.first)
+        perform_jump(move_sequence.shift)
+      else
+        raise InvalidMoveError.new "Cannot move there!"
+        break
+      end
+    end
+  end
+
+  def valid_move_seq?(move_sequence)
+    test_board = board.dup
+
+  end
+
+  def is_slide?(dest)
+    x, y = pos
+    xd, yd = dest
+    (xd - x).abs == 1 && (yd - y).abs == 1
+  end
+
+  def is_jump?(dest)
+    x, y = pos
+    xd, yd = dest
+    (xd - x).abs == 2 && (yd - y).abs == 2
+  end
 
   def move_diffs
     if kinged #kings move in any direction
@@ -98,6 +127,10 @@ class Piece
   end
 
   def render
+    render_char.colorize(background: :red)
+  end
+
+  def render_char
     if color == :black
       kinged ? (' ' + "\u2655" + ' ') : (' ' + "\u2659" + ' ')
     else
