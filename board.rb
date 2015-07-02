@@ -2,10 +2,10 @@ require_relative 'piece'
 
 class Board
 
-  attr_reader :grid
+  attr_accessor :grid
 
   def initialize(setup_pieces = true)
-    create_board(setup_pieces)
+    populate_board(setup_pieces)
   end
 
   def [](pos)
@@ -18,7 +18,7 @@ class Board
     grid[row][col] = piece
   end
 
-  def valid_pos?(pos) #Only checks if square is on the board and movable to, NOT if occupied.
+  def valid_pos?(pos) #Only checks if square is on the board and potentially movable to, NOT if occupied.
     if pos.none? { |val| val < 0 || val > 7 }
       r, c = pos
       return false if r.even? && c.even? || r.odd? && c.odd?
@@ -30,7 +30,7 @@ class Board
 
 
 
-  def create_board(setup_pieces)
+  def populate_board(setup_pieces)
     @grid = Array.new(8) { Array.new(8) }
     return unless setup_pieces
     setup_red
@@ -40,22 +40,30 @@ class Board
   def render
     grid.map do |row|
       row.map do |square|
-        square.nil? ? ' . ' : piece.render
+        square.nil? ? ' . ' : square.render
       end.join
     end.join("\n")
   end
 
   def setup_red #Red starts on "bottom"
-
+    grid[0..2].each_with_index do |bot_row, r_id|
+      bot_row.each_with_index do |square, c_id|
+        square = [7 - r_id, 7 - c_id]
+        self[square] = Piece.new(:r, self, square, false) if valid_pos?(square)
+      end
+    end
   end
 
   def setup_black #Black starts on "top"
-
+    grid[0..2].each_with_index do |bot_row, r_id|
+      bot_row.each_with_index do |square, c_id|
+        square = [r_id, c_id]
+        self[square] = Piece.new(:b, self, square, false) if valid_pos?(square)
+      end
+    end
   end
 
 end
 
 board = Board.new
 puts board.render
-pos = [7,0]
-p board.valid_pos?(pos)

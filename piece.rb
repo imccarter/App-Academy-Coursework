@@ -1,5 +1,7 @@
 class Piece
 
+  attr_reader :color, :board, :pos, :kinged
+
   MOVE_DIFFS = {
     :SW => [1, -1],
     :SE => [1, 1],
@@ -7,9 +9,10 @@ class Piece
     :NE => [-1, 1]
   }
 
-
-  def initialize(color, kinged = false)
+  def initialize(color, board, pos, kinged = false)
     @color = color #Black starts on "top"
+    @board = board
+    @pos = pos
     @kinged = kinged
   end
 
