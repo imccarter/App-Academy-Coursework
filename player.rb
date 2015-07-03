@@ -1,5 +1,3 @@
-require_relative 'board'
-require_relative 'game'
 
 class Player
 
@@ -9,9 +7,6 @@ class Player
     @color = color
   end
 end
-
-
-
 
 class HumanPlayer < Player
 
@@ -26,6 +21,9 @@ class HumanPlayer < Player
     piece = board[piece_select]#select what piece to move
     move_seq = move_select#takes in selections to create an array of moves
     piece.perform_moves(move_seq)
+  rescue InvalidSelectionError
+    puts "That's not your piece!"
+    retry
   rescue InvalidMoveError
     puts "That wasn't a valid move sequence, choose again!"
     retry
@@ -33,7 +31,8 @@ class HumanPlayer < Player
 
   def piece_select
     puts "Choose a piece, eg. \"6,1\""
-    piece = gets.chomp.split(",").map! { |n| n.to_i }
+    piece_pos = gets.chomp.split(",").map! { |n| n.to_i }
+    # raise InvalidSelectionError unless board[piece_pos].color == color
   end
 
   def move_select
@@ -41,4 +40,7 @@ class HumanPlayer < Player
     move_seq = gets.chomp.split(" ")
     move_seq.map! { |coords| coords.split(",") }.map! { |pair| pair.map! { |n| n.to_i } }
   end
+end
+
+class InvalidSelectionError < StandardError
 end

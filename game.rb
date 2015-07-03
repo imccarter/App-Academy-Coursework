@@ -4,22 +4,20 @@ require_relative 'display'
 
 class Game
 
-  attr_reader :board
+  attr_reader :board, :players, :current_player
 
   def initialize
     @board = Board.new
-    @players = { red: HumanPlayer.new, black: HumanPlayer.new }
+    @players = { red: HumanPlayer.new(:red), black: HumanPlayer.new(:black) }
     @current_player = :red
   end
 
   def play_game
-    board.render
     until game_over?
       players[current_player].play_turn(board)
-      current_player = (current_player = :red) ? :black : :red
+      @current_player = (current_player == :red) ? :black : :red
     end
 
-    puts board.render
     game_over?
   end
 
@@ -35,3 +33,6 @@ class Game
     end
   end
 end
+
+game = Game.new
+game.play_game

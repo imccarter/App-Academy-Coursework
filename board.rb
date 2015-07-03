@@ -44,7 +44,7 @@ class Board
   end
 
   def render
-    #system("clear")
+    system("clear")
     grid.map.with_index do |row, i|
       row.map.with_index do |square, j|
         if square.nil?
