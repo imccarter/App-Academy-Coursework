@@ -2,6 +2,8 @@ require_relative 'card'
 
 class Deck
 
+  attr_reader :cards
+
   def create_deck
     cards = []
     Card::SUITS.each do |suit, _|
@@ -21,6 +23,11 @@ class Deck
     dealt_cards.concat(@cards.shift(n))
   end
 
-  attr_reader :cards
+  def return(cards_to_return)
+    cards_to_return.each do |card|
+      @cards << card
+    end
+  end
+
 
 end
