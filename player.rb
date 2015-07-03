@@ -21,9 +21,9 @@ class HumanPlayer < Player
     piece = board[piece_select]#select what piece to move
     move_seq = move_select#takes in selections to create an array of moves
     piece.perform_moves(move_seq)
-  rescue InvalidSelectionError
-    puts "That's not your piece!"
-    retry
+  # rescue InvalidSelectionError
+  #   puts "That's not your piece!"
+  #   retry
   rescue InvalidMoveError
     puts "That wasn't a valid move sequence, choose again!"
     retry
