@@ -15,7 +15,7 @@ class Game
   def play_game
     board.render
     until game_over?
-      players[current_player].play_turn
+      players[current_player].play_turn(board)
       current_player = (current_player = :red) ? :black : :red
     end
 
@@ -33,4 +33,5 @@ class Game
     else
       false
     end
+  end
 end

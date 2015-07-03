@@ -85,30 +85,30 @@ class Board
 end
 
 #TESTS
-board = Board.new
-
-board[[1, 4]] = nil
-board[[0, 3]] = nil
-
-test_enemy = Piece.new(:black, board, [4,1])
-
-board[test_enemy.pos] = test_enemy
-
-puts board.render
-puts
-move_seq = [[3, 2], [1, 4]]
-
-
-
-enemy_pos = [4,1]
-
-
-
-board[enemy_pos] = Piece.new(:black, board, enemy_pos)
-
-puts board.render
-puts
-
-test_guy.perform_moves(move_seq)
-puts board.render
-puts
+# board = Board.new
+#
+# board[[1, 4]] = nil
+# board[[0, 3]] = nil
+#
+# test_enemy = Piece.new(:black, board, [4,1])
+#
+# board[test_enemy.pos] = test_enemy
+#
+# puts board.render
+# puts
+# move_seq = [[3, 2], [1, 4]]
+#
+#
+#
+# enemy_pos = [4,1]
+#
+#
+#
+# board[enemy_pos] = Piece.new(:black, board, enemy_pos)
+#
+# puts board.render
+# puts
+#
+# test_guy.perform_moves(move_seq)
+# puts board.render
+# puts

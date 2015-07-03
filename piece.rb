@@ -85,8 +85,6 @@ class Piece
     self.class.new(@color, duped_board, @pos, @kinged)
   end
 
-
-
   def perform_moves!(move_sequence)#takes an array of positions (aka moves)
     #debugger
     if move_sequence.length == 1
@@ -129,7 +127,6 @@ class Piece
     true
   end
 
-
   def perform_moves(move_sequence)
     if valid_move_seq?(move_sequence)
       perform_moves!(move_sequence)
@@ -157,7 +154,6 @@ class Piece
       @kinged = true if pos[0] == 7
     end
   end
-
 
   def move_diffs
     if kinged #kings move in any direction
