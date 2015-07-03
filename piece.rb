@@ -41,6 +41,7 @@ class Piece
   def make_slide(slides, dest) #Used by perform_slide; either moves the pieces + returns true, or returns false
     if can_make_slide?(slides, dest)
       board[pos], board[dest], self.pos = nil, self, dest
+      promote_to_king
       true
     else
       false
@@ -73,6 +74,7 @@ class Piece
     if can_make_jump?(jumps, jumped_pos, dest)
       board[pos], board[dest], self.pos = nil, self, dest
       board[jumped_pos] = nil
+      promote_to_king
       true
     else
       false
@@ -85,22 +87,23 @@ class Piece
 
 
 
-  def perform_moves!(move_sequence)#takes an array of positions (or moves)
+  def perform_moves!(move_sequence)#takes an array of positions (aka moves)
+    #debugger
     if move_sequence.length == 1
       if is_legal_slide?(move_sequence.first)
-        perform_slide(move_sequence.shift)
+        perform_slide(move_sequence.first)
       elsif is_legal_jump?(move_sequence.first)
-        perform_jump(move_sequence.shift)
+        perform_jump(move_sequence.first)
       else
-        illegal_move_error
+        raise InvalidMoveError.new
       end
 
     else
-      until move_sequence.empty?
-        if is_legal_jump?(move_sequence.first)
-          perform_jump(move_sequence.shift)
+      move_sequence.each do |move|
+        if is_legal_jump?(move)
+          perform_jump(move)
         else
-          illegal_move_error
+          raise InvalidMoveError.new
         end
       end
     end
@@ -114,17 +117,15 @@ class Piece
     is_slide?(dest) && board.valid_and_empty?(dest)
   end
 
-  def illegal_move_error
-    raise InvalidMoveError.new "Cannot move there!"
-  end
-
   def valid_move_seq?(move_sequence)
     test_board = board.dup
+    duped_piece = test_board[pos]
     begin
-      test_board.perform_moves!(move_sequence)
+      duped_piece.perform_moves!(move_sequence)
     rescue InvalidMoveError
       return false
     end
+
     true
   end
 
@@ -133,7 +134,7 @@ class Piece
     if valid_move_seq?(move_sequence)
       perform_moves!(move_sequence)
     else
-      raise InvalidMoveError.new "Invalid move sequence!"
+      raise InvalidMoveError.new
     end
   end
 
@@ -148,6 +149,15 @@ class Piece
     xd, yd = dest
     (xd - x).abs == 2 && (yd - y).abs == 2
   end
+
+  def promote_to_king
+    if color == :red
+      @kinged = true if pos[0] == 0
+    else
+      @kinged = true if pos[0] == 7
+    end
+  end
+
 
   def move_diffs
     if kinged #kings move in any direction
@@ -171,4 +181,7 @@ class Piece
     end
   end
 
+end
+
+class InvalidMoveError < StandardError
 end
