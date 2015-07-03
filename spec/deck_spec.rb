@@ -7,13 +7,11 @@ describe Deck do
   let(:returned_cards) { [card] }
   let(:dealt_cards) { [] }
 
-  it "initializes with 52 unique cards" do
-    expect(deck.cards.uniq.count).to eq(52)
+  it "initializes with 52 cards" do
+    expect(deck.cards.count).to eq(52)
   end
 
   describe "#deal" do
-
-
     before(:each) do
       dealt_cards.concat(deck.deal(2))
     end
@@ -23,6 +21,7 @@ describe Deck do
     end
 
     it "returns an array of dealt cards" do
+      # expect(dealt_cards).to all ( be_a(Card) )
       expect(dealt_cards.all? { |card| card.is_a?(Card) }).to be true
     end
 
@@ -32,7 +31,6 @@ describe Deck do
   end
 
   describe "#return" do
-
     it "adds the correct card to the bottom of the deck" do
       deck.return(returned_cards)
       expect(deck.cards.last).to eq(card)
