@@ -158,7 +158,7 @@ describe Hand do
 
   describe "#deal_from" do
     it "should deal five cards to the hand" do
-      allow(deck).to receive(:deal(5)).and_return(hand)
+      allow(deck).to receive(:deal).and_return(hand)
       test_hand = Hand.deal_from(deck)
       expect(test_hand.cards.length).to eq(5)
     end
@@ -174,31 +174,34 @@ describe Hand do
     end
   end
 
-  describe "#determine_combo_value" do
-    it "should return 8 for a straight flush" do
-      expect(straight_flush.determine_combo_value).to eq(8)
+  describe "#straight?" do
+    it "should find a straight if present" do
+      expect(straight_flush.straight?).to be true
     end
-    it "should return 7 for a four of a kind" do
-      expect(four_of_a_kind.determine_combo_value).to eq(7)
+    it "should not find a straight there is not one" do
+      expect(pair.straight?).to be false
     end
-    it "should return 6 for a full house" do
-      expect(full_house.determine_combo_value).to eq(6)
-    end
-    it "should return 5 for a flush" do
-      expect(flush.determine_combo_value).to eq(5)
-    end
-    it "should return 4 for a straight" do
-      expect(straight.determine_combo_value).to eq(4)
-    end
-    it "should return 3 for a three of a kind" do
-      expect(three_of_a_kind.determine_combo_value).to eq(3)
-    end
-    it "should return 2 for a two pair" do
-      expect(two_pair.determine_combo_value).to eq(2)
-    end
-    it "should return 1 for a pair" do
-      expect(pair.determine_combo_value).to eq(1)
-    end
+    # it "should return 7 for a four of a kind" do
+    #   expect(four_of_a_kind.determine_combo_value).to eq(7)
+    # end
+    # it "should return 6 for a full house" do
+    #   expect(full_house.determine_combo_value).to eq(6)
+    # end
+    # it "should return 5 for a flush" do
+    #   expect(flush.determine_combo_value).to eq(5)
+    # end
+    # it "should return 4 for a straight" do
+    #   expect(straight.determine_combo_value).to eq(4)
+    # end
+    # it "should return 3 for a three of a kind" do
+    #   expect(three_of_a_kind.determine_combo_value).to eq(3)
+    # end
+    # it "should return 2 for a two pair" do
+    #   expect(two_pair.determine_combo_value).to eq(2)
+    # end
+    # it "should return 1 for a pair" do
+    #   expect(pair.determine_combo_value).to eq(1)
+    # end
   end
 
   describe "#best_combo" do
@@ -273,16 +276,9 @@ describe Hand do
     end
   end
 
-
   describe "#value" do
     it "should correctly return the sum of the cards" do
       expect(hand.value).to eq(25)
     end
   end
-
-
-
-
-
-
 end
