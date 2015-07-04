@@ -68,7 +68,7 @@ describe Hand do
     Card.new(:diamond, :two),
     Card.new(:heart, :five)
     ]) }
-  let(:two_pair { Hand.new([
+  let(:two_pair) { Hand.new([
     Card.new(:heart, :two),
     Card.new(:diamond, :two),
     Card.new(:club, :six),
@@ -81,6 +81,79 @@ describe Hand do
     Card.new(:heart, :four),
     Card.new(:diamond, :two),
     Card.new(:heart, :five)
+    ]) }
+  let(:high_card_one) { Hand.new([
+    Card.new(:heart, :two),
+    Card.new(:spade, :three),
+    Card.new(:heart, :five),
+    Card.new(:heart, :six),
+    Card.new(:heart, :nine)
+    ]) }
+  let(:high_card_two) { Hand.new([
+    Card.new(:club, :two),
+    Card.new(:diamond, :three),
+    Card.new(:club, :ten),
+    Card.new(:club, :six),
+    Card.new(:club, :nine)
+    ]) }
+
+    ######
+
+  let(:straight_flush_h) { Hand.new([
+    Card.new(:heart, :seven),
+    Card.new(:heart, :three),
+    Card.new(:heart, :four),
+    Card.new(:heart, :six),
+    Card.new(:heart, :five)
+    ]) }
+  let(:four_of_a_kind_h) { Hand.new([
+    Card.new(:heart, :four),
+    Card.new(:diamond, :four),
+    Card.new(:spade, :four),
+    Card.new(:club, :four),
+    Card.new(:heart, :five)
+    ]) }
+  let(:full_house_h) { Hand.new([
+    Card.new(:heart, :four),
+    Card.new(:diamond, :four),
+    Card.new(:spade, :four),
+    Card.new(:club, :five),
+    Card.new(:heart, :five)
+    ]) }
+  let(:flush_h) { Hand.new([
+    Card.new(:club, :two),
+    Card.new(:club, :three),
+    Card.new(:club, :four),
+    Card.new(:club, :nine),
+    Card.new(:club, :five)
+    ]) }
+  let(:straight_h) { Hand.new([
+    Card.new(:heart, :seven),
+    Card.new(:heart, :three),
+    Card.new(:heart, :four),
+    Card.new(:diamond, :six),
+    Card.new(:heart, :five)
+    ]) }
+  let(:three_of_a_kind_h) { Hand.new([
+    Card.new(:heart, :three),
+    Card.new(:spade, :three),
+    Card.new(:heart, :four),
+    Card.new(:diamond, :three),
+    Card.new(:heart, :five)
+    ]) }
+  let(:two_pair_h) { Hand.new([
+    Card.new(:heart, :four),
+    Card.new(:diamond, :four),
+    Card.new(:club, :six),
+    Card.new(:diamond, :six),
+    Card.new(:heart, :five)
+    ]) }
+  let(:pair_h) { Hand.new([
+    Card.new(:heart, :two),
+    Card.new(:heart, :three),
+    Card.new(:heart, :four),
+    Card.new(:diamond, :two),
+    Card.new(:heart, :six)
     ]) }
 
   describe "#deal_from" do
@@ -138,16 +211,68 @@ describe Hand do
         expect(straight_flush.best_combo).to eq(:straight_flush)
       end
 
+      it "knows that 4 of a kind is better than 3 of a kind" do
+        expect(four_of_a_kind.best_combo).to eq(:four_of_a_kind)
+      end
+
       it "knows a 2 pair is better than a pair" do
-        expect(two_pair.best_combo).to eq (:two_pair)
+        expect(two_pair.best_combo).to eq(:two_pair)
       end
     end
   end
 
+  describe "#better_hand?" do
+    it "should not return true for a worse combo hand" do
+      expect(four_of_a_kind.better_hand?(straight_flush)).to be false
+    end
 
+    it "should return true for a better combo hand" do
+      expect(straight.better_hand?(pair)).to be true
+    end
 
+    it "should compare high cards if there's no combo" do
+      expect(high_card_one.better_hand?(high_card_two)).to be false
+    end
 
+    it "combo hands should beat high card hands" do
+      expect(pair.better_hand?(high_card_one)).to be true
+    end
   end
+
+  describe "#wins_tie?" do
+    it "should find the higher straight flush" do
+      expect(straight_flush.wins_tie?(straight_flush_h)).to be false
+    end
+
+    it "should find the higher four of a kind" do
+      expect(four_of_a_kind_h.wins_tie?(four_of_a_kind)).to be true
+    end
+
+    it "should find the higher full house" do
+      expect(full_house.wins_tie?(full_house_h)).to be false
+    end
+
+    it "should find the higher flush" do
+      expect(flush_h.wins_tie?(flush)).to be true
+    end
+
+    it "should find the higher straight" do
+      expect(straight.wins_tie?(straight_h)).to be false
+    end
+
+    it "should find the higher three of a kind" do
+      expect(three_of_a_kind_h.wins_tie?(three_of_a_kind)).to be true
+    end
+
+    it "should find the higher two pair" do
+      expect(two_pair.wins_tie?(two_pair_h)).to be false
+    end
+
+    it "should find the higher pair" do
+      expect(pair_h.wins_tie?(pair)).to be true
+    end
+  end
+
 
   describe "#value" do
     it "should correctly return the sum of the cards" do
