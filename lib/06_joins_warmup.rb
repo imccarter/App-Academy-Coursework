@@ -119,6 +119,7 @@ def casablanca_cast
     FROM
       actors a JOIN castings c
       ON a.id = c.actor_id
+
     WHERE c.movie_id = (
         SELECT
           id
