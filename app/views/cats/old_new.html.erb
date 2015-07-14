@@ -1,0 +1,31 @@
+<form action="/cats" method="POST">
+  <label for="cat_name">Cat Name</label>
+  <input type="text" name="cat[name]">
+  <br>
+  <br>
+  <label>Cat Sex:</label>
+  <label for='cat_sex_female'>Female</label>
+  <input type="radio" name='cat[sex]' id='cat_sex_female' value='F'>
+  <label for='cat_sex_male'>Male</label>
+  <input type="radio" name='cat[sex]' id='cat_sex_male' value='M'>
+  <br>
+  <br>
+  <label for="cat_description">Cat Description</label>
+  <input type='textarea' name='cat[description]'>
+  <br>
+  <br>
+  <label for="cat_color">Cat Color</label>
+    <select name="cat[color]" id='cat_color'>
+      <option selected="selected">Please select cat color</option>
+      <% Cat::COLORS.each do |color| %>
+        <option value=<%=color%>><%=color.upcase%></option>
+      <% end %>
+    </select>
+  <br>
+  <br>
+    <label for='cat_birthday'>Cat birthday</label>
+    <input type="date" name="cat[birth_date]" id='cat_birthday'>
+  <br>
+  <br>
+  <input type="submit" value="Create cat!">
+</form>
