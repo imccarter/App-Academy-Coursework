@@ -53,14 +53,20 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
-  # resources :users
+  resources :users do
+    resources :contacts, only: :index
+  end
+  resources :users, only: [:update, :index, :create, :show, :destroy]
 
-  get 'users' => 'users#index'
-  post 'users' => 'users#create'
-  get 'users/new' => 'users#new', :as => 'new_user'
-  get 'users/:id/edit' => 'users#edit', :as => 'edit_user'
-  get 'users/:id' => 'users#show', :as => 'user'
-  patch 'users/:id' => 'users#update'
-  put 'users/:id' => 'users#update'
-  delete 'users/:id' => 'users#destroy'
+  resources :contacts, only: [:update, :create, :show, :destroy]
+  resources :contact_shares, only: [:create, :destroy]
+
+  # get 'users' => 'users#index'
+  # post 'users' => 'users#create'
+  # get 'users/new' => 'users#new', :as => 'new_user'
+  # get 'users/:id/edit' => 'users#edit', :as => 'edit_user'
+  # get 'users/:id' => 'users#show', :as => 'user'
+  # patch 'users/:id' => 'users#update'
+  # put 'users/:id' => 'users#update'
+  # delete 'users/:id' => 'users#destroy'
 end

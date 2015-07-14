@@ -18,4 +18,16 @@ class User < ActiveRecord::Base
   )
 
   has_many :shared_contacts, through: :contact_shares, source: :contact
+
+  def all_owned_contacts
+    self.contacts
+  end
+
+  def all_shared_contacts
+    self.contact_shares
+  end
+
+  def all_contacts
+    all_owned_contacts + all_shared_contacts
+  end
 end
