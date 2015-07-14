@@ -55,10 +55,18 @@ Rails.application.routes.draw do
   #   end
   resources :users do
     resources :contacts, only: :index
+    resources :comments, only: [:create, :index, :destroy]
   end
   resources :users, only: [:update, :index, :create, :show, :destroy]
 
+  resources :contacts do
+    resources :comments, only: [:create, :index, :destroy]
+  end
   resources :contacts, only: [:update, :create, :show, :destroy]
+
+  resources :contact_shares do
+    resources :comments, only: [:create, :index, :destroy]
+  end
   resources :contact_shares, only: [:create, :destroy]
 
   # get 'users' => 'users#index'
