@@ -54,4 +54,5 @@ Rails.application.routes.draw do
   #     resources :products
   #   end
   resources :cats
+  resources :cat_rental_requests, only: [:new, :create, :destroy]
 end

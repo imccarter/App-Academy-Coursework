@@ -17,4 +17,11 @@
         <td>birth date:</td>
         <td><%= @cat.birth_date %></td>
     </tr>
+
+        <td>requests:</td>
+        <% @cat_rental_requests.each do |rental_request|%>
+          <tr>
+            <td><%= rental_request.start_date %> - <%= rental_request.end_date %></td>
+          </tr>
+        <% end %>
 </table>
