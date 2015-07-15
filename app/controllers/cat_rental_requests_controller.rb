@@ -7,10 +7,13 @@ class CatRentalRequestsController < ApplicationController
 
   def create
     @cat_rental_request = CatRentalRequest.new(cat_rental_request_params)
+    @cat_rental_request.cat_id = params[:cat_rental_request][:cat_id]
+    # fail
     if @cat_rental_request.save
-      render :show
+       redirect_to cat_url(@cat_rental_request.cat)
     else
-      redirect_to new_cat_rental_request_url
+      flash[:errors] = @cat_rental_request.errors.messages
+      redirect_to cat_url(@cat_rental_request.cat)
     end
   end
 
