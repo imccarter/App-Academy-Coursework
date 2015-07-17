@@ -1,0 +1,8 @@
+<h1><%= @album.name %></h1>
+<h2>Tracks</h2>
+<% @album.tracks.each do |track| %>
+  <%= track.name %><br>
+<% end %>
+<%= link_to "Add a track", new_album_track_url(@album.id), method: :get %>
+<br><br>
+<%= link_to "Update album info", edit_album_url(@album.id), method: :get %>

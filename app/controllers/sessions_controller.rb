@@ -8,13 +8,12 @@ class SessionsController < ApplicationController
     )
     if @user.nil?
       @user = User.new
-      @user.email = user_params[:email]
       flash[:errors] = @user.errors.full_messages
       render :new
     else
       @user.reset_session_token!
-      login_user!(@user)
-      #redirect_to
+      log_in_user!(@user)
+      redirect_to user_url(@user.id)
     end
   end
 
@@ -26,12 +25,7 @@ class SessionsController < ApplicationController
   def destroy
     current_user.reset_session_token!
     session[:session_token] = nil
-    render :new
+    redirect_to new_session_url
   end
 
-  def redirect_if_logged_in
-    if current_user
-      #redirect_to ...
-    end
-  end
 end

@@ -1,0 +1,27 @@
+<h1><%= @band.name %></h1>
+<table>
+  <tr>
+    <h2>Albums</h2>
+  </tr>
+    <% @band.albums.each do |album| %>
+      <tr>
+        <td>
+          <h4><%= link_to album.name, album_url(album.id), method: :get %></h4>
+          <% if !album.studio %>
+            <font size='2'>(Live album)</font>
+          <% end %>
+        </td>
+        <td>
+          <% album.tracks.each do |track| %>
+            <%= track.name %>
+            <% if track.bonus %>
+              <font size='2'>(Bonus track!)</font>
+            <% end %>
+            <br />
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+</table>
+
+<%= link_to "Input new album", new_band_album_url(@band.id), method: :get %>

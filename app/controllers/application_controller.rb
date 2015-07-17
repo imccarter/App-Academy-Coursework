@@ -21,4 +21,12 @@ class ApplicationController < ActionController::Base
   def logged_in?
     current_user == User.find_by(session_token: session[:session_token])
   end
+
+  def user_params
+    params.require(:user).permit(:email, :password)
+  end
+
+  def redirect_if_logged_in
+    redirect_to user_url(@user.id) if current_user
+  end
 end

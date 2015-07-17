@@ -1,0 +1,10 @@
+<% action = @track.persisted? ? track_url(@track.id) : tracks_url %>
+<% method = @track.persisted? ? :patch : :post %>
+
+<form action='<%= action %>' method='POST'>
+  <input type='hidden' name='_method' value='<%= method %>'>
+
+
+
+
+</form>

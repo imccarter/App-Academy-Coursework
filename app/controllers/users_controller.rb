@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :redirect_if_logged_in, except: :show
+
   def new
     @user = User.new
     render :new
@@ -17,10 +19,5 @@ class UsersController < ApplicationController
 
   def show
     render :show
-  end
-
-  private
-  def user_params
-    params.require(:user).permit(:email, :password)
   end
 end
