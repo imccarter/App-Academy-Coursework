@@ -15,6 +15,12 @@ class TracksController < ApplicationController
     end
   end
 
+  def show
+    @track = Track.find(params[:id])
+    @album = Album.find_by(id: params[:album_id])
+    render :show
+  end
+
 
 
   private

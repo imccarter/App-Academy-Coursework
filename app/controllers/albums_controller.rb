@@ -16,7 +16,8 @@ class AlbumsController < ApplicationController
   end
 
   def show
-    @album = Album.find_by(id: params[:id])
+    @album = Album.find(params[:id])
+    @band = Band.find_by(id: params[:band_id])
     render :show
   end
 
