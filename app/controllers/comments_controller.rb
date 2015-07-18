@@ -3,5 +3,5 @@ class CommentsController < ApplicationController
     @comment = Comment.find(params[:id])
     render :show
   end
-
+  
 end
