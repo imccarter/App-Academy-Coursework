@@ -11,18 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150717223210) do
+ActiveRecord::Schema.define(version: 20150718001651) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "comments", force: :cascade do |t|
-    t.text     "content",    null: false
-    t.integer  "author_id",  null: false
-    t.integer  "post_id",    null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.text     "content",           null: false
+    t.integer  "author_id",         null: false
+    t.integer  "post_id",           null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.integer  "parent_comment_id"
   end
 
-  add_index "comments", ["author_id"], name: "index_comments_on_author_id"
-  add_index "comments", ["post_id"], name: "index_comments_on_post_id"
+  add_index "comments", ["author_id"], name: "index_comments_on_author_id", using: :btree
+  add_index "comments", ["parent_comment_id"], name: "index_comments_on_parent_comment_id", using: :btree
+  add_index "comments", ["post_id"], name: "index_comments_on_post_id", using: :btree
 
   create_table "post_subs", force: :cascade do |t|
     t.integer  "post_id",    null: false
@@ -31,8 +36,8 @@ ActiveRecord::Schema.define(version: 20150717223210) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "post_subs", ["post_id"], name: "index_post_subs_on_post_id"
-  add_index "post_subs", ["sub_id"], name: "index_post_subs_on_sub_id"
+  add_index "post_subs", ["post_id"], name: "index_post_subs_on_post_id", using: :btree
+  add_index "post_subs", ["sub_id"], name: "index_post_subs_on_sub_id", using: :btree
 
   create_table "posts", force: :cascade do |t|
     t.string   "title",      null: false
@@ -43,7 +48,7 @@ ActiveRecord::Schema.define(version: 20150717223210) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "posts", ["author_id"], name: "index_posts_on_author_id"
+  add_index "posts", ["author_id"], name: "index_posts_on_author_id", using: :btree
 
   create_table "subs", force: :cascade do |t|
     t.string   "title",        null: false
@@ -53,8 +58,8 @@ ActiveRecord::Schema.define(version: 20150717223210) do
     t.datetime "updated_at",   null: false
   end
 
-  add_index "subs", ["moderator_id"], name: "index_subs_on_moderator_id"
-  add_index "subs", ["title"], name: "index_subs_on_title", unique: true
+  add_index "subs", ["moderator_id"], name: "index_subs_on_moderator_id", using: :btree
+  add_index "subs", ["title"], name: "index_subs_on_title", unique: true, using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "username",        null: false
@@ -64,8 +69,8 @@ ActiveRecord::Schema.define(version: 20150717223210) do
     t.datetime "updated_at",      null: false
   end
 
-  add_index "users", ["password_digest"], name: "index_users_on_password_digest"
-  add_index "users", ["session_token"], name: "index_users_on_session_token"
-  add_index "users", ["username"], name: "index_users_on_username", unique: true
+  add_index "users", ["password_digest"], name: "index_users_on_password_digest", using: :btree
+  add_index "users", ["session_token"], name: "index_users_on_session_token", using: :btree
+  add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 
 end

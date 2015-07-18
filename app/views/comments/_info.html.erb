@@ -1,0 +1,5 @@
+<h4>Written by: <%= comment.author.username %></h4>
+<p>
+  <%= comment.content %>
+  <%= link_to 'View comment', comment_url(comment) %>
+</p>

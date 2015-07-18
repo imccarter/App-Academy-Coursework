@@ -13,7 +13,7 @@
 
 class Post < ActiveRecord::Base
   validates :title, :author_id, presence: true
-  validates :subs, length: { minimum: 1 }
+  # validates :subs, length: { minimum: 1 }
   # validate :at_least_one_sub
 
   has_many :comments
