@@ -37,13 +37,10 @@ feature "the signup process" do
 end
 
 feature "logging in" do
-  before(:each) { create :user } #Try build instead of create?
+  given(:user){create :user}#Try build instead of create?
 
   it "shows username on the homepage after login" do
-    visit(new_session_url)
-    fill_in('Username', :with => 'my_name')
-    fill_in('Password', :with => 'password')
-    click_button('Sign In')
+    login_user(user)
     expect(page).to have_content('my_name')
   end
 

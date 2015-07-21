@@ -3,6 +3,9 @@ class User < ActiveRecord::Base
   validates :password, length: {minimum: 6, allow_nil: true}
   attr_reader :password
   after_initialize :ensure_session_token
+  validates :username, uniqueness: true
+
+  has_many :goals
 
   def password=(password)
     @password = password
@@ -33,5 +36,5 @@ class User < ActiveRecord::Base
   def ensure_session_token
     self.session_token ||= User.generate_session_token
   end
-  
+
 end

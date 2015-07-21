@@ -17,12 +17,16 @@ class ApplicationController < ActionController::Base
   end
 
   def logout_user!
-    current_user.reset_session_token
+    current_user.reset_session_token!
     session[:session_token] = nil
   end
 
   private
   def user_params
     params.require(:user).permit(:username, :password)
+  end
+
+  def require_logged_in
+    redirect_to new_session_url unless logged_in?
   end
 end
