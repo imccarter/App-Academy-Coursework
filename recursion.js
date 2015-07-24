@@ -111,20 +111,6 @@ var makeChange2 = function (amt, coins) {
   return best;
 };
 
-var merge = function (arr1, arr2) {
-  var output = [];
-  while (arr1.length > 0 && arr2.length > 0){
-    if (arr1[0] > arr2[0]) {
-      output.push(arr2.shift());
-    } else {
-      output.push(arr1.shift());
-    }
-  }
-  output = output.concat(arr1);
-  output = output.concat(arr2);
-  return output;
-};
-
 Array.prototype.mergeSort = function () {
   if (this.length <= 1) {
     return this;
@@ -133,5 +119,33 @@ Array.prototype.mergeSort = function () {
     var left = this.slice(0, halfway);
     var right = this.slice(halfway);
     return merge(left.mergeSort(), right.mergeSort());
+  }
+};
+
+var merge = function (arr1, arr2) {
+  var output = [];
+  while (arr1.length > 0 && arr2.length > 0) {
+    if (arr1[0] > arr2[0]) {
+      output.push(arr2.shift());
+    } else {
+      output.push(arr1.shift());
+    }
+  }
+  // output = output.concat(arr1);
+  // output = output.concat(arr2);
+  return output.concat(arr1).concat(arr2);
+};
+
+Array.prototype.subsets = function () {
+  if (this.length === 0) {
+    return [[]];
+  } else {
+    var mostSubs = this.slice(0, this.length - 1).subsets();
+    var mostSubs2 = [];
+    var self = this;
+    mostSubs.forEach(function (el) {
+      mostSubs2.push(el.concat(self[self.length - 1]));
+    });
+    return mostSubs.concat(mostSubs2);
   }
 };
