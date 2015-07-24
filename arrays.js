@@ -1,47 +1,36 @@
-var includes = function (array, el) {
-  var included = false
-  for (var i = 0; i < array.length; i++) {
-    if (array[i] === el) {
-      included = true;
-      break;
+Array.prototype.includes = function (el) {
+  return this.indexOf(el) !== -1;
+};
+
+Array.prototype.unique = function () {
+  var newArray = [];
+  for (var i = 0; i < this.length; i++) {
+    if (!newArray.includes(this[i])) {
+      newArray.push(this[i]);
     }
   }
-  return included
-}
+  return newArray;
+};
 
-var unique = function (array) {
-  var new_array = [];
-  for (var i = 0; i < array.length; i++) {
-    if (!includes(new_array, array[i])){
-      new_array.push(array[i]);
-    }
-  }
-  return new_array;
-}
-
-var twoSum = function (array) {
-  var new_array = [];
-  for (var i = 0; i < (array.length - 1); i++) {
-    for (var j = (i + 1); j < array.length; j++) {
-      if ((array[i] + array[j]) === 0){
-        new_array.push([i, j]);
+Array.prototype.twoSum = function () {
+  var newArray = [];
+  for (var i = 0; i < (this.length - 1); i++) {
+    for (var j = (i + 1); j < this.length; j++) {
+      if ((this[i] + this[j]) === 0){
+        newArray.push([i, j]);
       }
     }
   }
-  return new_array;
-}
+  return newArray;
+};
 
-var myTranspose = function (array) {
-  var new_array = [];
-  for (var i = 0; i < array.length; i++) {
-    new_array.push([]);
-  }
-
-  for (var row = 0; row < array.length; row++) {
-    for (var col = 0; col < array[row].length; col++) {
-      new_array[col].push(array[row][col])
+Array.prototype.myTranspose = function () {
+  var newArray = [];
+  for (var row = 0; row < this.length; row++) {
+    newArray.push([]);
+    for (var col = 0; col < this[row].length; col++) {
+      newArray[col].push(this[row][col]);
     }
   }
-
-  return new_array;
-}
+  return newArray;
+};
