@@ -28,7 +28,7 @@ HanoiGame.prototype.move = function (startTowerIdx, endTowerIdx) {
   var towers = this.stacks;
   debugger;
   if(this.isValidMove(startTowerIdx, endTowerIdx)){
-    this.stacks[endTowerIdx].unshift(this.stacks[startTowerIdx].shift());
+    towers[endTowerIdx].unshift(towers[startTowerIdx].shift());
     return true;
   } else {
     return false;
@@ -64,6 +64,7 @@ HanoiGame.prototype.run = function (completionCallback) {
       }
     } else {
       console.log("Invalid move");
+      that.run(completionCallback);
     }
   });
 }
