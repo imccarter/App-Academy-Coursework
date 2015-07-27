@@ -1,0 +1,15 @@
+(function () {
+  window.Asteroids = window.Asteroids || {};
+
+  var Asteroid = Asteroids.Asteroid = function (options) {
+    this.pos = options.pos;
+    this.vel = options.vel || Asteroids.Util.randomVec(Math.random() * 10);
+    this.color = options.color || Asteroid.COLOR;
+    this.radius = options.radius || Asteroid.RADIUS;
+  };
+
+  Asteroids.Util.inherits(Asteroid, Asteroids.MovingObject);
+
+  Asteroid.COLOR = '#000F37';
+  Asteroid.RADIUS = 20;
+})();
