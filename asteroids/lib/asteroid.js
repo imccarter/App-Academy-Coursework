@@ -3,9 +3,10 @@
 
   var Asteroid = Asteroids.Asteroid = function (options) {
     this.pos = options.pos;
-    this.vel = options.vel || Asteroids.Util.randomVec(Math.random() * 10);
+    this.vel = options.vel || Asteroids.Util.randomVec(Math.random() * 4 + 1);
     this.color = options.color || Asteroid.COLOR;
     this.radius = options.radius || Asteroid.RADIUS;
+    this.game = options.game;
   };
 
   Asteroids.Util.inherits(Asteroid, Asteroids.MovingObject);

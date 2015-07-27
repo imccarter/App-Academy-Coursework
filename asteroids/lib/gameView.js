@@ -10,6 +10,7 @@
     var currentGame = this
     setInterval(function (){
       currentGame.game.draw(currentGame.ctx);
+      currentGame.game.checkCollisions();
       currentGame.game.moveObjects();
     }, 20)
   }
