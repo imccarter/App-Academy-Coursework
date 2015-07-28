@@ -13,4 +13,10 @@
 
   Asteroid.COLOR = '#000F37';
   Asteroid.RADIUS = 20;
+
+  Asteroid.prototype.collideWith = function (otherObject) {
+    if (otherObject.constructor === Asteroids.Ship){
+      otherObject.relocate();
+    }
+  };
 })();

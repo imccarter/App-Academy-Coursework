@@ -39,8 +39,8 @@
   };
 
   MovingObject.prototype.collideWith = function (otherObject) {
-    this.game.remove(otherObject);
-    this.game.remove(this);
+    // this.game.remove(otherObject);
+    // this.game.remove(this);
   };
 
   MovingObject.distance = function (pos1, pos2) {
