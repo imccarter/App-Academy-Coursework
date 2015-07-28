@@ -4,13 +4,18 @@
   var Game = Asteroids.Game = function () {
     this.asteroids = [];
     this.addAsteroids();
-
+    this.bullets = [];
     this.ship = new Asteroids.Ship({'game': this});
   };
 
   Game.DIM_X = 1000;
   Game.DIM_Y = 500;
   Game.NUM_ASTEROIDS = 8;
+
+  Game.prototype.addBullets = function () {
+    this.bullets.push(new Asteroids.Bullet({'game': this, 'ship': this.ship}));
+
+  };
 
   Game.prototype.addAsteroids = function () {
     for (var i = 0; i < Game.NUM_ASTEROIDS; i++) {
@@ -69,16 +74,25 @@
     }
   };
 
-  Game.prototype.remove = function (asteroid) {
-    var newAry = this.asteroids.filter(function (el){
-      return el !== asteroid;
-    });
-    this.asteroids = newAry;
+  Game.prototype.remove = function (object) {
+    var itemType = object.constructor;
+    if (itemType === Asteroids.Bullet) {
+      var newBullets = this.bullets.filter(function (el){
+        return el !== object;
+      });
+      this.bullets = newBullets;
+    } else if (itemType === Asteroids.Asteroid) {
+      var newAsteroids = this.asteroids.filter(function (el){
+        return el !== object;
+      });
+      this.asteroids = newAsteroids;
+    }
   };
 
   Game.prototype.allObjects = function () {
     var all = this.asteroids.slice(0);
     all.push(this.ship);
+    all.concat(this.bullets);
     return all;
   };
 
