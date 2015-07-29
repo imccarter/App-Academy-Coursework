@@ -1,1 +1,29 @@
 /* PHASE 3: Layout */
+
+.content {
+  display: block;
+  margin: 0 auto;
+  background: white;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  width: 900px;
+  height: 100%;
+}
+
+.content-sidebar {
+  /*float: left;*/
+  display: inline-block;
+  width: 197.5px;
+  height: 100%;
+  border-right: 1px solid #ccc;
+  min-height: 200px;
+}
+
+.content-main {
+  display: inline-block;
+  margin: 0 auto;
+  width: 697.5px;
+  height: 100%
+  /*float: right;*/
+}

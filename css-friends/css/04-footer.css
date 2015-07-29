@@ -1,1 +1,36 @@
 /* PHASE 4: Footer */
+
+.footer {
+  display: block;
+  margin: 0 auto;
+  background: white;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  width: 900px;
+  height: 60px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  color: #aaa;
+  font-size: 14px;
+}
+
+/*copyright statement*/
+.footer > span {
+  padding: 20px;
+  display: inline-block;
+}
+
+.footer-list {
+  float: right;
+}
+
+.footer-list > li {
+  float: left;
+  display: inline-block;
+  padding: 20px 10px 20px 10px;
+}
+
+.footer-list > li:hover {
+  color: black;
+}
