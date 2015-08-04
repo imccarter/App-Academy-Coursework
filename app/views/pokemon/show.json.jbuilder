@@ -1,1 +1,1 @@
-json.partial!('pokemon/pokemon', pokemon: @pokemon)
+json.partial!('pokemon/pokemon', locals: { pokemon: @pokemon, display_toys: true } )
