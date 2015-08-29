@@ -1,0 +1,32 @@
+<% cat_rr = cat_rental_requests_url %>
+<% if flash[:errors] %>
+<ul>
+  <% flash[:errors].each do |error|%>
+  <li> <%= error %></li>
+  <% end %>
+</ul>
+<% end %>
+
+<form action="http://localhost:3000/cat_rental_requests" method="POST">
+
+  <label for='cat_selection'>Choose A Cat!</label>
+  <select name='cat_rental_request[cat_id]' id='cat_selection'>
+    <% @cats.each do |cat| %>
+      <option value='<%= cat.id %>'><%=cat.name%></option>
+    <% end %>
+  </select>
+
+  <p>
+    <label for='start_date'>Rent from...</label>
+    <input type="date" id='start_date' name='cat_rental_request[start_date]' value='start date'>
+  </p>
+
+  <p>
+    <label for='end_date'>...Until...</label>
+    <input type="date" id='end_date' name='cat_rental_request[end_date]' value='start date'>
+  </p>
+
+  <p>
+    <input type="submit" value="Rent this cat!">
+  </p>
+</form>

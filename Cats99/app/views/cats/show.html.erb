@@ -1,0 +1,27 @@
+<h1><%= @cat.name %></h1>
+
+<table>
+    <tr>
+        <td>color:</td>
+        <td><%= @cat.color %></td>
+    </tr>
+    <tr>
+        <td>sex:</td>
+        <td><%= @cat.sex %></td>
+    </tr>
+    <tr>
+        <td>reviews:</td>
+        <td><%= @cat.description %></td>
+    </tr>
+    <tr>
+        <td>birth date:</td>
+        <td><%= @cat.birth_date %></td>
+    </tr>
+
+        <td>requests:</td>
+        <% @cat_rental_requests.each do |rental_request|%>
+          <tr>
+            <td><%= rental_request.start_date %> - <%= rental_request.end_date %></td>
+          </tr>
+        <% end %>
+</table>
