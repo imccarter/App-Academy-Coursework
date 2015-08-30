@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MusicApp</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <!-- Errors not displaying, no idea why! -->
+<%= render partial: "layouts/errors" %>
+<% if current_user %>
+  <%= button_to "Log out", session_url, method: :delete %>
+<% elsif request.url == new_user_url %>
+  <%= button_to "Sign in", new_session_url, method: :get %>
+<% else %>
+  <%= button_to "Sign up", new_user_url, method: :get %>
+<% end %>
+<%= yield %>
+
+</body>
+</html>
