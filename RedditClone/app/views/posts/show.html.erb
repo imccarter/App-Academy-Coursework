@@ -1,0 +1,12 @@
+<h2>
+  <% if @post.url %>
+    <%= link_to @post.title, @post.url %>
+  <% else %>
+    <%= @post.title %>
+  <% end %>
+</h2>
+<p><%= @post.content %></p>
+
+<% @comments.each do |comment| %>
+  <%= render "comments/info", comment: comment %>
+<% end %>
